@@ -1,0 +1,47 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <string>
+#include <ctime>
+
+using namespace std;
+
+class Soft {
+private:
+    string programName;
+    string developer;
+    double diskSpace;
+    time_t licenseExpirationDate;
+
+public:
+    Soft(const string& name, const string& dev, double space, const time_t& expiration)
+        : programName(name), developer(dev), diskSpace(space), licenseExpirationDate(expiration) {}
+
+    ~Soft() {
+        cout << "Удален объект " << programName << "." << endl;
+    }
+
+    int daysUntilExpiration() const {
+        time_t now = time(nullptr); 
+        double difference = difftime(licenseExpirationDate, now);
+        return static_cast<int>(difference / (60 * 60 * 24));
+    }
+
+    void displaySoftwareInfo() const {
+        cout << "Название программы: " << programName << endl;
+        cout << "Разработчик: " << developer << endl;
+        cout << "Занимаемый объем: " << diskSpace << " Гб" << endl;
+        cout << "Дата завершения лицензии: " << ctime(&licenseExpirationDate);
+        cout << "Дней до завершения лицензии: " << daysUntilExpiration() << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    time_t expirationDate = time(nullptr) + 30 * 24 * 60 * 60;
+    Soft software("Примерное программное обеспечение", "Примерный разработчик", 2.5, expirationDate);
+
+    software.displaySoftwareInfo();
+
+    return 0;
+}

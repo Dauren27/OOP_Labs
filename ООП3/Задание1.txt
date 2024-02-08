@@ -1,0 +1,50 @@
+#include <iostream>
+#include <string>
+#include <ctime>
+
+using namespace std;
+
+class Timer {
+private:
+    int seconds;
+
+public:
+    Timer(int initialSeconds) : seconds(initialSeconds) {}
+
+    Timer(const string& timeString) {
+        int hours, minutes, sec;
+        sscanf_s(timeString.c_str(), "%d:%d:%d", &hours, &minutes, &sec);
+        seconds = hours * 3600 + minutes * 60 + sec;
+    }
+
+    Timer(int minutes, int seconds) : seconds(minutes * 60 + seconds) {}
+
+    void run() {
+        while (seconds > 0) {
+            cout << "Осталось времени: " << seconds << " секунд." << endl;
+            --seconds;
+            for (int i = 0; i < 100000000; ++i) {}
+        }
+
+        cout << "Звонок! Время вышло." << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    Timer timer1(60);
+    Timer timer2("00:05:30");
+    Timer timer3(3, 30);
+
+    cout << "Таймер 1:" << endl;
+    timer1.run();
+
+    cout << "\nТаймер 2:" << endl;
+    timer2.run();
+
+    cout << "\nТаймер 3:" << endl;
+    timer3.run();
+
+    return 0;
+}

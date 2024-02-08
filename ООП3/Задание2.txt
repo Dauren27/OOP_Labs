@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Nomenclature {
+private:
+    string itemName;
+    double wholesalePrice;
+    double retailMarkup;
+    int quantityInStock;
+
+public:
+    Nomenclature(const string& name, double wholesale, double markup, int quantity)
+        : itemName(name), wholesalePrice(wholesale), retailMarkup(markup), quantityInStock(quantity) {}
+
+    ~Nomenclature() {
+        cout << "Объект " << itemName << " удален." << endl;
+    }
+
+    double calculateNetProfit() const {
+        return quantityInStock * (retailMarkup * wholesalePrice);
+    }
+
+    void displayItemInfo() const {
+        cout << "Название товара: " << itemName << endl;
+        cout << "Оптовая цена: " << wholesalePrice << " руб." << endl;
+        cout << "Розничная наценка: " << retailMarkup << "%" << endl;
+        cout << "Количество на складе: " << quantityInStock << " шт." << endl;
+        cout << "Возможный чистый доход: " << calculateNetProfit() << " руб." << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, "Russian");
+
+    Nomenclature item("Пример товара", 100.0, 0.2, 50);
+
+    item.displayItemInfo();
+
+    return 0;
+}
