@@ -1,0 +1,88 @@
+#include <iostream>
+
+using namespace std;
+
+class Fraction {
+private:
+    double chislo;
+
+public:
+    Fraction(double value = 0) : chislo(value) {}
+
+    Fraction operator+(const Fraction& other) const {
+        return Fraction(chislo + other.chislo);
+    }
+
+    Fraction operator-(const Fraction& other) const {
+        return Fraction(chislo - other.chislo);
+    }
+
+    Fraction operator*(const Fraction& other) const {
+        return Fraction(chislo * other.chislo);
+    }
+
+    Fraction operator/(const Fraction& other) const {
+        if (other.chislo == 0) {
+            throw invalid_argument("Division by zero.");
+        }
+        return Fraction(chislo / other.chislo);
+    }
+
+    Fraction operator+(double value) const {
+        return Fraction(chislo + value);
+    }
+
+    Fraction operator-(double value) const {
+        return Fraction(chislo - value);
+    }
+
+    Fraction operator*(double value) const {
+        return Fraction(chislo * value);
+    }
+
+    Fraction operator/(double value) const {
+        if (value == 0) {
+            throw invalid_argument("Division by zero.");
+        }
+        return Fraction(chislo / value);
+    }
+
+    Fraction& operator++() {
+        chislo++;
+        return *this;
+    }
+
+    Fraction operator++(int) {
+        Fraction temp(*this);
+        ++(*this); 
+        return temp;
+    }
+
+    friend ostream& operator<<(ostream& os, const Fraction& frac) {
+        os << frac.chislo;
+        return os;
+    }
+};
+
+int main() {
+    try {
+        Fraction a(3.0 / 4), b(2.0 / 5);
+
+        Fraction c = a + b;
+        cout << "Result of addition: " << c << endl;
+
+        Fraction d = a * 2.0;
+        cout << "Result of multiplication: " << d << endl;
+
+        Fraction e = ++a; 
+        cout << "Prefix increment: " << e << endl;
+
+        Fraction f = b++; 
+        cout << "Postfix increment: " << f << endl;
+    }
+    catch (const exception& e) {
+        cerr << "Exception caught: " << e.what() << endl;
+    }
+
+    return 0;
+}

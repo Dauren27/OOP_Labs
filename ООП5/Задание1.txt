@@ -1,0 +1,90 @@
+#include <iostream>
+#include <limits>
+
+using namespace std;
+
+class Int {
+private:
+    int value;
+
+public:
+    Int(int val = 0) : value(val) {}
+
+    Int operator+(const Int& other) const {
+        long double result = static_cast<long double>(value) + other.value;
+        if (result > numeric_limits<int>::max() || result < numeric_limits<int>::min()) {
+            throw overflow_error("Arithmetic overflow occurred.");
+        }
+        return Int(static_cast<int>(result));
+    }
+
+    Int operator-(const Int& other) const {
+        long double result = static_cast<long double>(value) - other.value;
+        if (result > numeric_limits<int>::max() || result < numeric_limits<int>::min()) {
+            throw overflow_error("Arithmetic overflow occurred.");
+        }
+        return Int(static_cast<int>(result));
+    }
+
+    Int operator*(const Int& other) const {
+        long double result = static_cast<long double>(value) * other.value;
+        if (result > numeric_limits<int>::max() || result < numeric_limits<int>::min()) {
+            throw overflow_error("Arithmetic overflow occurred.");
+        }
+        return Int(static_cast<int>(result));
+    }
+
+    Int operator/(const Int& other) const {
+        if (other.value == 0) {
+            throw invalid_argument("Division by zero.");
+        }
+        return Int(value / other.value);
+    }
+
+    Int operator++(int) {
+        Int temp(*this);
+        ++(*this); 
+        return temp;
+    }
+
+    Int& operator++() {
+        long double result = static_cast<long double>(value) + 1;
+        if (result > numeric_limits<int>::max() || result < numeric_limits<int>::min()) {
+            throw overflow_error("Arithmetic overflow occurred.");
+        }
+        value = static_cast<int>(result);
+        return *this;
+    }
+
+    friend ostream& operator<<(ostream& os, const Int& num) {
+        os << num.value;
+        return os;
+    }
+};
+
+int main() {
+    try {
+        Int a(2147483646);
+        Int b(1);
+
+        Int c = a + b;
+        cout << "Result of addition: " << c << endl;
+
+        Int d = a * b;
+        cout << "Result of multiplication: " << d << endl;
+
+        Int e = ++a; 
+        cout << "Prefix increment: " << e << endl;
+
+        Int f = b++; 
+        cout << "Postfix increment: " << f << endl;
+
+        /*Int g = Int(numeric_limits<int>::max()) + Int(1);
+        cout << "Result of addition (should cause overflow): " << g << endl;*/
+    }
+    catch (const exception& e) {
+        cerr << "Exception caught: " << e.what() << endl;
+    }
+
+    return 0;
+}

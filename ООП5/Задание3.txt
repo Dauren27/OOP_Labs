@@ -1,0 +1,34 @@
+#include <iostream>
+
+using namespace std;
+
+class Rectangle {
+private:
+    double length;
+    double width;
+
+public:
+    Rectangle(double l = 0, double w = 0) : length(l), width(w) {}
+
+    double rect_area(double l, double w) {
+        return l * w;
+    }
+
+    double rect_area() {
+        return length * width;
+    }
+
+    double rect_area(double side) {
+        return side * side;
+    }
+};
+
+int main() {
+    Rectangle rect(4, 6);
+    cout << "Area of rectangle: " << rect.rect_area() << endl;
+
+    double side = 5;
+    cout << "Area of square: " << rect.rect_area(side) << endl;
+
+    return 0;
+}
